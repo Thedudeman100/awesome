@@ -439,12 +439,15 @@ globalkeys = mytable.join(
 
     -- Screen brightness
     	--awful.key({ }, "XF86MonBrightnessUp", function () os.execute("xbacklight -inc 10") end,
+    
+
+    --[[
     awful.key({ altkey, modkey }, "Up", function () os.execute("xbacklight -inc 10") end,
               {description = "Brightness +10%", group = "hotkeys"}),
     	--awful.key({ }, "XF86MonBrightnessDown", function () os.execute("xbacklight -dec 10") end,
     awful.key({ altkey, modkey }, "Down", function () os.execute("xbacklight -dec 10") end,
               {description = "Brightness -10%", group = "hotkeys"}),
-
+    --]]
     -- ALSA volume control
     awful.key({ altkey }, "Up",
         function ()
@@ -666,8 +669,14 @@ for i = 1, 9 do
                           end
                       end
                   end,
-                  {description = "toggle focused client on tag #" .. i, group = "tag"})
-    )
+                  {description = "toggle focused client on tag #" .. i, group = "tag"}),
+        awful.key({ altkey }, "#" .. i + 9,
+		function ()
+			local v = (i/10) + .1
+			os.execute(string.format("xrandr --output eDP --brightness %s", v))
+		end,
+	{description = "Brightness", group = "hotkeys"})
+	)
 end
 
 clientbuttons = mytable.join(
